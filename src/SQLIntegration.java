@@ -56,4 +56,22 @@ public class SQLIntegration {
             e.printStackTrace();
         }
     }
+
+    public void deletePassword(int passwordID) {
+        try {
+            Connection connection = DriverManager.getConnection(connectionString, username, password);
+            
+            //Delete password based on its ID
+            String deletePasswordSql = "DELETE FROM usersForPM WHERE id = ?";
+            PreparedStatement deletePasswordStmt = connection.prepareStatement(deletePasswordSql);
+            deletePasswordStmt.setInt(1, passwordID);
+            deletePasswordStmt.executeUpdate();
+            
+            deletePasswordStmt.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
 }
