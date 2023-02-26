@@ -6,10 +6,8 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Arrays;
 
-public class PMFrame extends JFrame implements ActionListener {
-
+public class PasswordEditFrame extends JFrame implements ActionListener {
     JLabel urlLabel;
     JTextField urlText;
     JLabel websiteNameLabel;
@@ -23,17 +21,17 @@ public class PMFrame extends JFrame implements ActionListener {
     JButton button;
     JLabel PMPasswordLabel;
     JPasswordField PMPasswordText;
-    User user;
+    password Password;
 
-    PMFrame(User user) {
-        this.user = user;
+    PasswordEditFrame(password Password1) {
+        Password = Password1;
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
         this.add(panel);
         this.setSize(600, 300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setTitle("Password Manager - add password");
+        this.setTitle("Password Manager - Password editor");
         this.setVisible(true);
 
         urlLabel = new JLabel("Website URL: ");
@@ -42,6 +40,7 @@ public class PMFrame extends JFrame implements ActionListener {
 
         urlText = new JTextField(20);
         urlText.setBounds(200, 20, 300, 25);
+        urlText.setText(Password.getWebsiteUrl());
         panel.add(urlText);
 
         websiteNameLabel = new JLabel("Website Name: ");
@@ -50,6 +49,7 @@ public class PMFrame extends JFrame implements ActionListener {
 
         websiteNameText = new JTextField(20);
         websiteNameText.setBounds(200, 50, 300, 25);
+        websiteNameText.setText(Password.getWebsiteName());
         panel.add(websiteNameText);
 
         webUsernameLabel = new JLabel("Website Username: ");
@@ -58,6 +58,7 @@ public class PMFrame extends JFrame implements ActionListener {
 
         webUsernameText = new JTextField(20);
         webUsernameText.setBounds(200, 80, 300, 25);
+        webUsernameText.setText(Password.getUserName());
         panel.add(webUsernameText);
 
         webPasswordLabel = new JLabel("Website Password: ");
@@ -66,27 +67,10 @@ public class PMFrame extends JFrame implements ActionListener {
 
         webPasswordText = new JPasswordField();
         webPasswordText.setBounds(200, 110, 300, 25);
+        webPasswordText.setText(Password.getPassword());
         panel.add(webPasswordText);
 
-        /*
-         * PMUsernameLabel = new JLabel("Password Manager Username: ");
-         * PMUsernameLabel.setBounds(10, 140, 200, 25);
-         * panel.add(PMUsernameLabel);
-         * 
-         * PMUsernameText = new JTextField();
-         * PMUsernameText.setBounds(200, 140, 300, 25);
-         * panel.add(PMUsernameText);
-         * 
-         * PMPasswordLabel = new JLabel("Password Manager Password: ");
-         * PMPasswordLabel.setBounds(10, 170, 200, 25);
-         * panel.add(PMPasswordLabel);
-         * 
-         * PMPasswordText = new JPasswordField();
-         * PMPasswordText.setBounds(200, 170, 300, 25);
-         * panel.add(PMPasswordText);
-         */
-
-        button = new JButton("Save Password");
+        button = new JButton("Save Edited Password");
         button.setBounds(10, 210, 140, 25);
         panel.add(button);
         panel.repaint();
@@ -95,13 +79,17 @@ public class PMFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == button) {
-            int userid = user.getID();
-            String webUsername = (String) webUsernameText.getText();
-            String url = urlText.getText();
-            String websiteName = (String) websiteNameText.getText();
-            String password1 = Arrays.toString(webPasswordText.getPassword());
-            SQLIntegration.createPasswordSQL(userid, url, websiteName, webUsername, password1);
+            String webUrl = urlText.getText();
+            String webName = websiteNameText.getText();
+            String webUName = webUsernameText.getText();
+            char[] password = webPasswordText.getPassword();
+            String webPassword = new String(password);
+            Password.setUrl(webUrl);
+            Password.setWebName(webName);
+            Password.setUsername(webUName);
+            Password.setPassword(webPassword);
+            SQLIntegration.updateSQL(webUrl, webName, webUName, webPassword, Password.getUserId(), Password.getId());
         }
-    }
 
+    }
 }
