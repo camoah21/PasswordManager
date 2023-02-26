@@ -1,3 +1,4 @@
+
 /*
 import java.sql.*;
 
@@ -29,18 +30,19 @@ public class SQLIntegration {
     private static String username = "admin";
     private static String password = "itsc4155group3";
     private static String connectionString = "jdbc:mysql://capstoneproject.ck3v6fmgoed4.us-east-2.rds.amazonaws.com/PasswordManager";
-    
-    public void executeSQL(String webURL, String webName, String webUName, String webUPassword, String PMUsername, String PMPassword) {
+
+    public void executeSQL(String webURL, String webName, String webUName, String webUPassword, String PMUsername,
+            String PMPassword) {
         try {
             Connection connection = DriverManager.getConnection(connectionString, username, password);
-            
+
             // Insert into 'usersForPM' table using a prepared statement
             String insertUserSql = "INSERT INTO usersForPM (usernameForPM, userPasswordForPM) VALUES (?, ?)";
             PreparedStatement insertUserStmt = connection.prepareStatement(insertUserSql);
             insertUserStmt.setString(1, PMUsername);
             insertUserStmt.setString(2, PMPassword);
             insertUserStmt.executeUpdate();
-            
+
             // Insert into 'userPasswords' table using a prepared statement
             String insertPasswordSql = "INSERT INTO userPasswords (websiteURL, websiteName, webUsername, webPassword, usernameForPM) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement insertPasswordStmt = connection.prepareStatement(insertPasswordSql);
@@ -50,7 +52,28 @@ public class SQLIntegration {
             insertPasswordStmt.setString(4, webUPassword);
             insertPasswordStmt.setString(5, PMUsername);
             insertPasswordStmt.executeUpdate();
-            
+
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void updateSQL(String webURL, String webName, String webUName, String webUPassword,
+            String prevWebsite, String prevUsername) {
+        try {
+            Connection connection = DriverManager.getConnection(connectionString, username, password);
+
+            // Insert into 'userPasswords' table using a prepared statement
+            String updatePasswordSql = "UPDATE userPasswords SET websiteURL = ?, websiteName = ?, webUsername = ?, webPassword = ? WHERE websiteName = "
+                    + prevWebsite + " AND userName = " + prevUsername;
+            PreparedStatement insertPasswordStmt = connection.prepareStatement(updatePasswordSql);
+            insertPasswordStmt.setString(1, webURL);
+            insertPasswordStmt.setString(2, webName);
+            insertPasswordStmt.setString(3, webUName);
+            insertPasswordStmt.setString(4, webUPassword);
+            insertPasswordStmt.executeUpdate();
+
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,18 +83,18 @@ public class SQLIntegration {
     public void deletePassword(int passwordID) {
         try {
             Connection connection = DriverManager.getConnection(connectionString, username, password);
-            
-            //Delete password based on its ID
+
+            // Delete password based on its ID
             String deletePasswordSql = "DELETE FROM usersForPM WHERE id = ?";
             PreparedStatement deletePasswordStmt = connection.prepareStatement(deletePasswordSql);
             deletePasswordStmt.setInt(1, passwordID);
             deletePasswordStmt.executeUpdate();
-            
+
             deletePasswordStmt.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
 }
