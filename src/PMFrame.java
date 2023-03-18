@@ -6,6 +6,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class PMFrame extends JFrame implements ActionListener{
 
@@ -20,16 +21,19 @@ public class PMFrame extends JFrame implements ActionListener{
     JLabel PMUsernameLabel;
     JTextField PMUsernameText;
     JButton button;
+    JButton viewPasswordsButton;
     JLabel PMPasswordLabel;
     JPasswordField PMPasswordText;
 
     public String webURL, webName, webUName, webUPassword, PMUsername, PMPassword;
+    public String website, username;
+    
 
     PMFrame() {
 
         JPanel panel = new JPanel();
         panel.setLayout(null);
-        
+
         this.add(panel);
         this.setSize(600, 300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -94,6 +98,25 @@ public class PMFrame extends JFrame implements ActionListener{
                 }
             }
         });
+
+        viewPasswordsButton = new JButton("View Passwords");
+        viewPasswordsButton.setBounds(160, 210, 140, 25);
+        panel.add(viewPasswordsButton);
+        viewPasswordsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == viewPasswordsButton) {
+                    String webUrl = urlText.getText();
+                    String webName = websiteNameText.getText();
+                    String webUName = webUsernameText.getText();
+                    char[] password = webPasswordText.getPassword();
+                    String webPassword = new String(password);
+                    SQLIntegration.updateSQL(webUrl, webName, webUName, webPassword, website, username);
+                    new PasswordListFrame(webUrl, webName, webUName, webPassword);
+                }
+            }
+        });
+          
     }
 
     @Override

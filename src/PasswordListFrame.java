@@ -1,50 +1,39 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
+
+import javax.swing.*;
+import java.awt.*;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class PasswordListFrame extends JFrame {
 
-    private JTable passwordTable;
-    private DefaultTableModel passwordTableModel;
-
-    public PasswordListFrame(List<String> passwords) {
-
-        SQLIntegration pullingPasswords = new SQLIntegration();
-        pullingPasswords.readSQLpasswords();
+    public PasswordListFrame(String webUrl, String webName, String webUName, String webPassword) {
+        setTitle("Password Details");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(400, 300);
 
         JPanel panel = new JPanel();
-        panel.setLayout(null);
+        panel.setLayout(new GridLayout(4, 2));
+        add(panel);
 
-        this.add(panel);
-        this.setSize(800, 500);
-        this.setTitle("Password List");
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        panel.add(new JLabel("Website URL:"));
+        panel.add(new JLabel(webUrl));
 
-        passwordTableModel = new DefaultTableModel(new String[] {"Website URL", "Website Name", "Username", "Password"}, 0);
-        passwordTable = new JTable(passwordTableModel);
-        passwordTable.setBounds(10, 10, 780, 450);
-        panel.add(passwordTable);
+        panel.add(new JLabel("Website Name:"));
+        panel.add(new JLabel(webName));
 
+        panel.add(new JLabel("Website Username:"));
+        panel.add(new JLabel(webUName));
 
-        String webURL = new String();
-        String webName = new String();
-        String webUName = new String();
-        String webUPassword = new String();
+        panel.add(new JLabel("Website Password:"));
+        panel.add(new JLabel(webPassword));
 
-
-        for (String password : passwords) {
-            passwordTableModel.addRow(new String[] {webURL, webName, webUName, webUPassword, password});
-        }
-
-        this.setVisible(true);
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
-
 }
-
-
-    
-
-
-
-
-

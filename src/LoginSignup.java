@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 class connectionUA{
 	Connection con;
@@ -39,6 +40,10 @@ class connectionUA{
 	
 		
 	}
+
+    public List<String> getPasswords() {
+        return null;
+    }
 }
 
 class SignUp extends JFrame{
