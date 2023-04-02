@@ -21,12 +21,16 @@ public class PasswordEditFrame extends JFrame implements ActionListener {
     JButton button;
     JLabel PMPasswordLabel;
     JPasswordField PMPasswordText;
+    String prevUsername;
+    String prevUrl;
     String website;
-    String username;
+    String prevPassword;
 
-    PasswordEditFrame(String URL, String website, String username, String password) {
+    PasswordEditFrame(String URL, String website, String username, String prevPassword) {
         this.website = website;
-        this.username = username;
+        this.prevUrl = URL;
+        this.prevUsername = username;
+        this.prevPassword = prevPassword;
         JPanel panel = new JPanel();
         panel.setLayout(null);
 
@@ -69,10 +73,10 @@ public class PasswordEditFrame extends JFrame implements ActionListener {
 
         webPasswordText = new JPasswordField();
         webPasswordText.setBounds(200, 110, 300, 25);
-        webPasswordText.setText(password);
+        webPasswordText.setText(prevPassword);
         panel.add(webPasswordText);
 
-        button = new JButton("Save Edited Password");
+        button = new JButton("Update Password");
         button.setBounds(10, 210, 140, 25);
         panel.add(button);
         panel.repaint();
@@ -86,7 +90,10 @@ public class PasswordEditFrame extends JFrame implements ActionListener {
             String webUName = webUsernameText.getText();
             char[] password = webPasswordText.getPassword();
             String webPassword = new String(password);
-            SQLIntegration.updateSQL(webUrl, webName, webUName, webPassword, website, username);
+            SQLIntegration.updateSQL(webUrl, webName, webUName, webPassword, website, prevPassword, prevUrl,
+                    prevUsername);
+            new PasswordListFrame(webUrl, webName, webUName, webPassword);
+            this.dispose();
         }
 
     }

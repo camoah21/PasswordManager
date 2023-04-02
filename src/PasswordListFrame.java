@@ -33,6 +33,18 @@ public class PasswordListFrame extends JFrame {
         panel.add(new JLabel("Website Password:"));
         panel.add(new JLabel(webPassword));
 
+        JButton editPasswordButton = new JButton("Edit Password");
+        editPasswordButton.setBounds(160, 210, 140, 25);
+        panel.add(editPasswordButton);
+        editPasswordButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == editPasswordButton) {
+                    new PasswordEditFrame(webUrl, webName, webUName, webPassword);
+                }
+            }
+        });
+
         setLocationRelativeTo(null);
         setVisible(true);
     }
