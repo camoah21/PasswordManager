@@ -1,3 +1,4 @@
+
 /*
 import java.sql.*;
 
@@ -29,7 +30,7 @@ public class SQLIntegration {
     private static String username = "admin";
     private static String password = "itsc4155group3";
     private static String connectionString = "jdbc:mysql://capstoneproject.ck3v6fmgoed4.us-east-2.rds.amazonaws.com/PasswordManager";
-    
+
     public void readSQLpasswords() {
         try {
             Connection connection = DriverManager.getConnection(connectionString, username, password);
@@ -41,7 +42,7 @@ public class SQLIntegration {
 
             while (data.next()) {
                 int id = data.getInt(
-                    "id");
+                        "id");
                 String websiteUrl = data.getString("websiteUrl");
                 String websiteName = data.getString("websiteName");
                 String userName = data.getString("userName");
@@ -56,13 +57,14 @@ public class SQLIntegration {
             System.err.println("Error");
         }
     }
-    
-    public void executeSQL(String webURL, String webName, String webUName, String webUPassword, String PMUsername, String PMPassword) {
+
+    public void executeSQL(String webURL, String webName, String webUName, String webUPassword, String PMUsername,
+            String PMPassword) {
         try {
             Connection connection = DriverManager.getConnection(connectionString, username, password);
-            
+
             // Insert into 'userPasswords' table using a prepared statement
-            String insertPasswordSql = "INSERT INTO userPasswords (websiteUrl, websiteName, userName, Password, userid) VALUES (?, ?, ?, ?, ?)";
+            String insertPasswordSql = "INSERT INTO userpasswords (websiteUrl, websiteName, userName, Password, userid) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement insertPasswordStmt = connection.prepareStatement(insertPasswordSql);
             insertPasswordStmt.setString(1, webURL);
             insertPasswordStmt.setString(2, webName);
@@ -70,27 +72,29 @@ public class SQLIntegration {
             insertPasswordStmt.setString(4, webUPassword);
             insertPasswordStmt.setString(5, PMUsername);
             insertPasswordStmt.executeUpdate();
-            
+
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public static void updateSQL(String webURL, String webName, String webUName, String webUPassword, String prevWebsite, String prevUsername) {
+    public static void updateSQL(String webURL, String webName, String webUName, String webUPassword,
+            String prevWebsite, String prevPassword, String prevUrl, String prevUsername) {
         try {
             Connection connection = DriverManager.getConnection(connectionString, username, password);
 
-            // Insert into 'userPasswords' table using a prepared statement
-            String updatePasswordSql = "UPDATE userPasswords SET websiteUrl = ?, websiteName = ?, userName = ?, Password = ? WHERE websiteName = "
-                + prevWebsite + " AND userName = " + prevUsername;
-            PreparedStatement insertPasswordStmt = connection.prepareStatement(updatePasswordSql);
-            insertPasswordStmt.setString(1, webURL);
-            insertPasswordStmt.setString(2, webName);
-            insertPasswordStmt.setString(3, webUName);
-            insertPasswordStmt.setString(4, webUPassword);
-            insertPasswordStmt.executeUpdate();
-
+            // update into 'userPasswords' table using a prepared statement
+            String updatePasswordSql = "UPDATE userpasswords SET websiteUrl = ?, websiteName = ?, userName = ?, Password = ? WHERE websiteName = "
+                    + prevWebsite + " AND websitePassword = " + prevPassword + "AND websiteUrl = " + prevUrl
+                    + "AND websiteUsername = " + prevUsername;
+            PreparedStatement updatePasswordStmt = connection.prepareStatement(updatePasswordSql);
+            updatePasswordStmt.setString(1, webURL);
+            updatePasswordStmt.setString(2, webName);
+            updatePasswordStmt.setString(3, webUName);
+            updatePasswordStmt.setString(4, webUPassword);
+            updatePasswordStmt.executeUpdate();
+            updatePasswordStmt.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -101,7 +105,7 @@ public class SQLIntegration {
         try {
             Connection connection = DriverManager.getConnection(connectionString, username, password);
 
-            //Delete password based on its ID
+            // Delete password based on its ID
             String deletePasswordSql = "DELETE FROM usersForPM WHERE id = ?";
             PreparedStatement deletePasswordStmt = connection.prepareStatement(deletePasswordSql);
             deletePasswordStmt.setInt(1, passwordID);
