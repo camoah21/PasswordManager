@@ -24,10 +24,10 @@ public class App {
                 } catch (Exception e) {
                 }
                 if (matched) {
-                    log.label2.setText("Welcome to the PM");
+                    log.label2.setText("Welcome to the Password Manager");
                     PMFrame pmFrame = new PMFrame();
                 } else
-                    log.label2.setText("YO! WRONG YOU!");
+                    log.label2.setText("Username or password is incorrect");
             }
         });
     }
