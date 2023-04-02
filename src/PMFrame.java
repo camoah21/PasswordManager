@@ -8,7 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-public class PMFrame extends JFrame implements ActionListener{
+public class PMFrame extends JFrame implements ActionListener {
 
     JLabel urlLabel;
     JTextField urlText;
@@ -27,7 +27,6 @@ public class PMFrame extends JFrame implements ActionListener{
 
     public String webURL, webName, webUName, webUPassword, PMUsername, PMPassword;
     public String website, username;
-    
 
     PMFrame() {
 
@@ -39,10 +38,9 @@ public class PMFrame extends JFrame implements ActionListener{
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setTitle("Password Manager");
         this.setVisible(true);
-        
 
         urlLabel = new JLabel("Website URL: ");
-        urlLabel.setBounds( 10, 20, 120, 25);
+        urlLabel.setBounds(10, 20, 120, 25);
         panel.add(urlLabel);
 
         urlText = new JTextField(20);
@@ -50,7 +48,7 @@ public class PMFrame extends JFrame implements ActionListener{
         panel.add(urlText);
 
         websiteNameLabel = new JLabel("Website Name: ");
-        websiteNameLabel.setBounds( 10, 50, 120, 25);
+        websiteNameLabel.setBounds(10, 50, 120, 25);
         panel.add(websiteNameLabel);
 
         websiteNameText = new JTextField(20);
@@ -58,7 +56,7 @@ public class PMFrame extends JFrame implements ActionListener{
         panel.add(websiteNameText);
 
         webUsernameLabel = new JLabel("Website Username: ");
-        webUsernameLabel.setBounds( 10, 80, 120, 25);
+        webUsernameLabel.setBounds(10, 80, 120, 25);
         panel.add(webUsernameLabel);
 
         webUsernameText = new JTextField(20);
@@ -66,7 +64,7 @@ public class PMFrame extends JFrame implements ActionListener{
         panel.add(webUsernameText);
 
         webPasswordLabel = new JLabel("Website Password: ");
-        webPasswordLabel.setBounds( 10, 110, 120, 25);
+        webPasswordLabel.setBounds(10, 110, 120, 25);
         panel.add(webPasswordLabel);
 
         webPasswordText = new JPasswordField();
@@ -74,7 +72,7 @@ public class PMFrame extends JFrame implements ActionListener{
         panel.add(webPasswordText);
 
         PMUsernameLabel = new JLabel("Password Manager Username: ");
-        PMUsernameLabel.setBounds( 10, 140, 200, 25);
+        PMUsernameLabel.setBounds(10, 140, 200, 25);
         panel.add(PMUsernameLabel);
 
         PMUsernameText = new JTextField();
@@ -87,7 +85,7 @@ public class PMFrame extends JFrame implements ActionListener{
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource()==button) {
+                if (e.getSource() == button) {
                     webURL = urlText.getText();
                     webName = websiteNameText.getText();
                     webUName = webUsernameText.getText();
@@ -111,12 +109,11 @@ public class PMFrame extends JFrame implements ActionListener{
                     String webUName = webUsernameText.getText();
                     char[] password = webPasswordText.getPassword();
                     String webPassword = new String(password);
-                    SQLIntegration.updateSQL(webUrl, webName, webUName, webPassword, website, username);
                     new PasswordListFrame(webUrl, webName, webUName, webPassword);
                 }
             }
         });
-          
+
     }
 
     @Override
@@ -125,8 +122,4 @@ public class PMFrame extends JFrame implements ActionListener{
         throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
     }
 
-    
-
 }
-
-
