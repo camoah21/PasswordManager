@@ -24,6 +24,7 @@ public class PMFrame extends JFrame implements ActionListener{
     JButton viewPasswordsButton;
     JLabel PMPasswordLabel;
     JPasswordField PMPasswordText;
+    JButton deletePasswordButton;
 
     public String webURL, webName, webUName, webUPassword, PMUsername, PMPassword;
     public String website, username;
@@ -81,6 +82,7 @@ public class PMFrame extends JFrame implements ActionListener{
         PMUsernameText.setBounds(200, 140, 300, 25);
         panel.add(PMUsernameText);
 
+        // Save Password
         button = new JButton("Save Password");
         button.setBounds(10, 210, 140, 25);
         panel.add(button);
@@ -99,6 +101,7 @@ public class PMFrame extends JFrame implements ActionListener{
             }
         });
 
+        // View Password
         viewPasswordsButton = new JButton("View Passwords");
         viewPasswordsButton.setBounds(160, 210, 140, 25);
         panel.add(viewPasswordsButton);
@@ -116,7 +119,37 @@ public class PMFrame extends JFrame implements ActionListener{
                 }
             }
         });
+
+        // Delete Password
+        deletePasswordButton = new JButton("Delete Password");
+        deletePasswordButton.setBounds(310, 210, 140, 25);
+        panel.add(deletePasswordButton);
+        deletePasswordButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == deletePasswordButton) {
+                    // Retrieve the password ID from the selected password
+                    int selectedPasswordID = getSelectedPasswordID(); 
+                    
+                    // Call the deletePassword() method with the password ID
+                    SQLIntegration sqlIntegration = new SQLIntegration();
+                    sqlIntegration.deletePassword(selectedPasswordID);
+                }
+            }
+        });
+        
+        
           
+    }
+    
+    // Get Password ID
+    public int getSelectedPasswordID() {
+        String websiteName = websiteNameText.getText();
+        String webUsername = webUsernameText.getText();
+        
+        SQLIntegration sqlIntegration = new SQLIntegration();
+        int selectedPasswordID = sqlIntegration.getPasswordID(websiteName, webUsername);
+        return selectedPasswordID;
     }
 
     @Override

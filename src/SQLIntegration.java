@@ -101,8 +101,8 @@ public class SQLIntegration {
         try {
             Connection connection = DriverManager.getConnection(connectionString, username, password);
 
-            //Delete password based on its ID
-            String deletePasswordSql = "DELETE FROM usersForPM WHERE id = ?";
+            // Delete password based on its ID
+            String deletePasswordSql = "DELETE FROM userPasswords WHERE id = ?";
             PreparedStatement deletePasswordStmt = connection.prepareStatement(deletePasswordSql);
             deletePasswordStmt.setInt(1, passwordID);
             deletePasswordStmt.executeUpdate();
@@ -113,4 +113,33 @@ public class SQLIntegration {
             e.printStackTrace();
         }
     }
+
+    //Get
+    public int getPasswordID(String websiteName, String webUsername) {
+        int passwordID = -1;
+    
+        try {
+            Connection connection = DriverManager.getConnection(connectionString, username, password);
+    
+            String query = "SELECT id FROM userPasswords WHERE websiteName = ? AND websiteUsername = ?";
+    
+            PreparedStatement command = connection.prepareStatement(query);
+            command.setString(1, websiteName);
+            command.setString(2, webUsername);
+            ResultSet data = command.executeQuery();
+    
+            if (data.next()) {
+                passwordID = data.getInt("id");
+            }
+    
+            data.close();
+            command.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    
+        return passwordID;
+    }
+    
 }
