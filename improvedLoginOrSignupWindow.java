@@ -31,7 +31,7 @@ public class LoginOrSignupWindow extends JFrame {
         getPasswordButton = new JButton("Get Password");
         usernameField = new JTextField(20);
         passwordField = new JPasswordField(20);
-        secretAnswerField = new JTextField(20);
+        
 
 
         loginButton.addActionListener(new ActionListener() {
@@ -106,7 +106,7 @@ public class LoginOrSignupWindow extends JFrame {
         panel.add(loginButton);
         panel.add(signupButton);
         panel.add(new JLabel("Secret Answer: "));
-        panel.add(secretAnswerField);
+        
         panel.add(getPasswordButton);
         add(panel);
 
